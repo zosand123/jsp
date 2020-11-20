@@ -18,7 +18,8 @@
 <form name="writeForm" action="write.jsp" method='post'>
 <div class="form-group">
   <label for="title">제목:</label>
-  <input type="text" class="form-control" id="title" name="title">
+  <input type="text" class="form-control" id="title" name="title"
+  required="required" placeholder="제목을 5글자 이상으로 입력하세요.">
 </div>
 <div class="form-group">
   <label for="content">내용:</label>
