@@ -1,11 +1,26 @@
+<%@page import="com.webjjang.board.dto.BoardDTO"%>
+<%@page import="java.util.List"%>
+<%@page import="com.webjjang.board.dao.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%-- jstl등록 --%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <% System.out.println("/board/list.jsp"); %>
+<!-- DB에서 데이터를 가져오는 자바 프로그램작성 -->
+<%
+//여기가 자바프로그램입니다.
+//DAO를 생성하고 호출해서 사용한다.
+BoardDAO dao = new BoardDAO();
+List<BoardDTO> list = dao.list();
+// java와 jsp에서 공통으로 사용하는 데이터영역에 해당되는 객체 - request를 주로 사용 
+request.setAttribute("list", list);
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>게시판 리스트</title>
+
 <!-- 라이브러리등록 - jQuery, Bootstrap : CDN방식 
 주석 단축키 ctrl+shift+c-->
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,15 +35,6 @@
 	cursor: pointer;
 }
 </style>
-<script>
-$(function(){ 
-	//데이터 한줄 클릭하면 글보기로 이동되는 이벤트처리
-	$(".dataRow").click(function(){
-		//location.href='view.jsp'; 밑이랑 똑같이 동작됨 
-		location='view.jsp';
-	})
-});
-</script>
 </head>
 <body>
 <div class="container">
@@ -41,36 +47,19 @@ $(function(){
 	<th>작성일</th>
 	<th>조회수</th>
 </tr>
+<c:forEach items="${list}" var="dto">
+<!-- 반복문의 시작 -->
 <tr class='dataRow'>
-	<td>10</td>
-	<td>JSP란?</td>
-	<td>김수연</td>
-	<td>1677.02.04</td>
-	<td>5</td>
+	<td class="no">${dto.no}</td>
+	<td>${dto.title}</td>
+	<td>${dto.writer}</td>
+	<td>${dto.writeDate}</td>
+	<td>${dto.hit}</td>
 </tr>
-<tr class='dataRow'>
-	<td>11</td>
-	<td>빅데이터란?</td>
-	<td>김경선</td>
-	<td>1672.02.04</td>
-	<td>100</td>
-</tr>
-<tr class='dataRow'>
-	<td>12</td>
-	<td>JSP란?</td>
-	<td>김수연</td>
-	<td>1677.02.04</td>
-	<td>5</td>
-</tr>
-<tr class='dataRow'>
-	<td>13</td>
-	<td>JSP란?</td>
-	<td>김수연</td>
-	<td>1677.02.04</td>
-	<td>5</td>
-</tr>
+<!-- 반복문의 끝 -->
+</c:forEach>
 <tr>
-	<td colspane="5">
+	<td colspan="5">
 		<a href='writeForm.jsp' class="btn btn-default">글쓰기</a>
 	</td>
 </tr>
